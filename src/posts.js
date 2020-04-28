@@ -176,7 +176,7 @@ const scrapePost = (request, itemSpec, entryData) => {
             postLocationId: (item.location && item.location.id) || null,
             postOwnerId: (item.owner && item.owner.id) || null,
         },
-        alt: item.node.accessibility_caption,
+        alt: item.accessibility_caption,
         url: `https://www.instagram.com/p/${item.node.shortcode}`,
         // Additional data
         id:                 item.node.id,
