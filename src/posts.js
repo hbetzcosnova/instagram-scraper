@@ -176,14 +176,26 @@ const scrapePost = (request, itemSpec, entryData) => {
             postLocationId: (item.location && item.location.id) || null,
             postOwnerId: (item.owner && item.owner.id) || null,
         },
-        alt: item.accessibility_caption,
-        url: `https://www.instagram.com/p/${item.shortcode}`,
-        likesCount: item.edge_media_preview_like.count,
-        imageUrl: item.display_url,
-        firstComment: item.edge_media_to_caption.edges[0] && item.edge_media_to_caption.edges[0].node.text,
-        timestamp: new Date(parseInt(item.taken_at_timestamp, 10) * 1000),
-        locationName: (item.location && item.location.name) || null,
-        ownerUsername: (item.owner && item.owner.username) || null,
+        alt: item.node.accessibility_caption,
+        url: `https://www.instagram.com/p/${item.node.shortcode}`,
+        // Additional data
+        id: item.node.id,
+        shortcode: item.node.shortcode,
+        owner: item.node.owner.id,
+        timestamp: item.node.taken_at_timestamp,
+        heigth: item.node.dimensions.heigth,
+        width: item.node.dimensions.width,
+        imageUrl: item.node.display_url,
+        isVideo: item.node.is_video,
+        commentsCount: item.node.edge_media_to_comment.count,
+        likesCount: item.node.edge_media_to_comment.count,
+        likesCount: item.node.edge_media_preview_like.count,
+        text: item.node.edge_media_to_caption.edges[0] && item.node.edge_media_to_caption.edges[0].node.text,
+        // misc data
+        locationName: (item.node.location && item.node.location.name) || null,
+        // usable by appending https://www.instagram.com/explore/locations/ to see the location
+        locationId: (item.node.location && item.node.location.id) || null,
+        ownerUsername: (item.node.owner && item.node.owner.username) || null,
     };
 };
 
@@ -228,10 +240,20 @@ const scrapePosts = async (page, request, itemSpec, entryData, requestQueue) => 
         },
         alt: item.node.accessibility_caption,
         url: `https://www.instagram.com/p/${item.node.shortcode}`,
-        likesCount: item.node.edge_media_preview_like.count,
+        // Additional data
+        id: item.node.id,
+        shortcode: item.node.shortcode,
+        owner: item.node.owner.id,
+        timestamp: item.node.taken_at_timestamp,
+        heigth: item.node.dimensions.heigth,
+        width: item.node.dimensions.width,
         imageUrl: item.node.display_url,
-        firstComment: item.node.edge_media_to_caption.edges[0] && item.node.edge_media_to_caption.edges[0].node.text,
-        timestamp: new Date(parseInt(item.node.taken_at_timestamp, 10) * 1000),
+        isVideo: item.node.is_video,
+        commentsCount: item.node.edge_media_to_comment.count,
+        likesCount: item.node.edge_media_to_comment.count,
+        likesCount: item.node.edge_media_preview_like.count,
+        text: item.node.edge_media_to_caption.edges[0] && item.node.edge_media_to_caption.edges[0].node.text,
+        // misc data
         locationName: (item.node.location && item.node.location.name) || null,
         // usable by appending https://www.instagram.com/explore/locations/ to see the location
         locationId: (item.node.location && item.node.location.id) || null,
