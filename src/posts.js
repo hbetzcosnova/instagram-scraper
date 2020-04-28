@@ -192,10 +192,10 @@ const scrapePost = (request, itemSpec, entryData) => {
         prevLikesCount:     (item.edge_media_preview_like && item.edge_media_preview_like.count ) || 0,
         text:               item.edge_media_to_caption.edges[0] && item.edge_media_to_caption.edges[0].node.text,
         // misc data
-        locationName: (item.node.location && item.node.location.name) || null,
+        locationName: (item.location && item.location.name) || null,
         // usable by appending https://www.instagram.com/explore/locations/ to see the location
-        locationId: (item.node.location && item.node.location.id) || null,
-        ownerUsername: (item.node.owner && item.node.owner.username) || null,
+        locationId: (item.location && item.location.id) || null,
+        ownerUsername: (item.owner && item.owner.username) || null,
     };
 };
 
